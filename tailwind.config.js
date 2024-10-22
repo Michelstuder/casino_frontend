@@ -4,7 +4,12 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx}",  // React-Dateien
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        success: '#22C55E',
+        error: '#EF4444',
+      },
+    },
   },
   plugins: [],
 }

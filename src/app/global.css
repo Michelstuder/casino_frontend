@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --primary-color: #4f46e5; /* indigo */
+  --secondary-color: #e5e7eb; /* gray-200 */
+  --accent-color: #f59e0b; /* amber */
+}
