@@ -1,34 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 
 const Roulette = () => {
-  const [playground, setPlayground] = useState<any[]>([]);
   const [selectedColor, setSelectedColor] = useState<string>('');
   const [selectedNumber, setSelectedNumber] = useState<number | null>(null);
   const [betAmount, setBetAmount] = useState<number | null>(null);
   const [error, setError] = useState<string>('');
   const [gameResult, setGameResult] = useState<any | null>(null);
-
-  useEffect(() => {
-    const fetchPlayground = async () => {
-      try {
-        const response = await axios.get(
-          'http://localhost:8080/games/roulette/playground',
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('authToken')}`,
-            },
-          }
-        );
-        setPlayground(response.data);
-      } catch (err) {
-        console.error('Error fetching playground:', err);
-        setError('Failed to load playground.');
-      }
-    };
-
-    fetchPlayground();
-  }, []);
 
   const handleBet = async () => {
     if (betAmount === null || betAmount <= 0) {
