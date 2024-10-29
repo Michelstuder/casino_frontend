@@ -11,7 +11,8 @@ import ToastNotification, {
   showErrorToast,
   showSuccessToast,
 } from '../components/toastNotification';
-import axios from 'axios';
+import Games from './games';
+import Roulette from './roulette';
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -70,11 +71,15 @@ const App = () => {
             path='/games'
             element={
               isLoggedIn ? (
-                <h1 className='text-3xl'>Games Page</h1>
+                <Games />
               ) : (
                 <Navigate to='/login' />
               )
             }
+          />
+          <Route
+            path='/roulette'
+            element={<Roulette />}
           />
         </Routes>
       </div>
