@@ -5,14 +5,14 @@ import {
   Routes,
   Navigate,
 } from 'react-router-dom';
-import { GoogleLoginComponent } from './googleLogin';
-import Navbar from './navbar';
+import { GoogleLoginComponent } from '../components/googleLogin';
+import Navbar from '../components/navbar';
 import ToastNotification, {
   showErrorToast,
   showSuccessToast,
 } from '../components/toastNotification';
 import Games from './games';
-import Roulette from './roulette';
+import Roulette from '../components/roulette';
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);

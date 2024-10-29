@@ -40,11 +40,11 @@ const Navbar = ({ isLoggedIn, onLogout }: NavbarProps) => {
         <div className="flex justify-between items-center py-4">
           <div className="flex items-center space-x-4">
             <Link to="/" className="text-gray-800 hover:text-indigo-500 flex items-center">
-              <HomeIcon className="h-6 w-6" />
+              <HomeIcon className="h-8 w-8" />
               <span className="hidden md:inline ml-1">Home</span>
             </Link>
             <Link to="/games" className="text-gray-800 hover:text-indigo-500 flex items-center">
-              <PlayIcon className="h-6 w-6" />
+              <PlayIcon className="h-8 w-8" />
               <span className="hidden md:inline ml-1">Games</span>
             </Link>
           </div>
@@ -55,7 +55,7 @@ const Navbar = ({ isLoggedIn, onLogout }: NavbarProps) => {
                   onClick={toggleDropdown}
                   className="text-gray-800 hover:text-indigo-500 flex items-center focus:outline-none"
                 >
-                  <UserCircleIcon className="h-6 w-6" />
+                  <UserCircleIcon className="h-8 w-8" />
                 </button>
                 
                 {dropdownOpen && (
@@ -77,7 +77,7 @@ const Navbar = ({ isLoggedIn, onLogout }: NavbarProps) => {
                       }}
                       className="block w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100"
                     >
-                      <ArrowLeftStartOnRectangleIcon className="h-5 w-5 inline mr-1" />
+                      <ArrowLeftStartOnRectangleIcon className="h-8 w-8 inline mr-1" />
                       Logout
                     </button>
                   </div>
@@ -85,7 +85,7 @@ const Navbar = ({ isLoggedIn, onLogout }: NavbarProps) => {
               </>
             ) : (
               <Link to="/login" className="text-gray-800 hover:text-indigo-500 flex items-center">
-                <UserCircleIcon className="h-6 w-6" />
+                <UserCircleIcon className="h-8 w-8" />
                 <span className="hidden md:inline ml-1">Login</span>
               </Link>
             )}
