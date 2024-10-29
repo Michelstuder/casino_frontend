@@ -1,6 +1,5 @@
 import React from 'react';
 import { GoogleLogin } from '@react-oauth/google';
-import axios from 'axios';
 
 interface GoogleLoginProps {
   onLoginSuccess: (data: any) => void;
@@ -13,9 +12,9 @@ export const GoogleLoginComponent = ({
 }: GoogleLoginProps) => {
   const handleSuccess = async (response: any) => {
     const token = response.credential;
-    console.log(token);
+    console.log('Google Login Token:', token);
+
     try {
-      // Simulate successful login for now, but you would post token to your server here
       onLoginSuccess(token);
     } catch (error) {
       console.error('Login failed:', error);
