@@ -134,7 +134,7 @@ const App = () => {
             path='/games'
             element={isLoggedIn ? <Games /> : <Navigate to='/login' />}
           />
-          <Route path='/roulette' element={<Roulette />} />
+          <Route path='/roulette' element={<Roulette updateBalance={updateBalance} currentBalance={balance}/>} />
         </Routes>
       </div>
     </Router>

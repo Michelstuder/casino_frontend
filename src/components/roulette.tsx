@@ -1,16 +1,28 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import getUserIdFromToken from '../utils/decodeToken';
 
-const Roulette = () => {
+interface RouletteProps {
+  updateBalance: (amount: number) => void;
+  currentBalance: number;
+}
+
+const Roulette = ({ updateBalance, currentBalance }: RouletteProps) => {
   const [selectedColor, setSelectedColor] = useState<string>('');
   const [selectedNumber, setSelectedNumber] = useState<number | null>(null);
   const [betAmount, setBetAmount] = useState<number | null>(null);
   const [error, setError] = useState<string>('');
   const [gameResult, setGameResult] = useState<any | null>(null);
+  const jwtToken = getUserIdFromToken();
 
   const handleBet = async () => {
     if (betAmount === null || betAmount <= 0) {
       setError('Bet amount must be greater than 0');
+      return;
+    }
+
+    if (betAmount > currentBalance) {
+      setError('Your balance is to low.')
       return;
     }
 
@@ -44,13 +56,48 @@ const Roulette = () => {
           },
         }
       );
+
       setGameResult(response.data);
+
+      if (response.data.isSuccess) {
+        addToBalance(response.data.moneyWon);
+      } else {
+        removeFromBalance(bet.amount);
+      }
+
       setError('');
     } catch (err) {
-      console.log(bet);
       console.error('Error placing bet:', err);
       setError('Failed to place bet.');
     }
+  };
+
+  const addToBalance = (amount: number): void => {
+    updateMoney(amount);
+  }
+
+  const removeFromBalance = (amount: number): void => {
+    updateMoney(-amount);
+  }
+
+  const updateMoney = async (depositAmount: number) => {
+      try {
+        const response = await axios.put(
+          `http://localhost:8081/api/users/${jwtToken?.email}/deposit`,
+          depositAmount,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+        updateBalance(response.data.moneyAmount);
+        setError('');
+      } catch (err) {
+        console.error('Deposit failed:', err);
+        setError('Failed to deposit.');
+      }
   };
 
   return (
@@ -123,13 +170,12 @@ const Roulette = () => {
               Outcome:
             </div>
             <div
-              className={`flex items-center justify-center text-white text-3xl h-full font-semibold py-4 rounded-md shadow-md ${
-                gameResult.actualColour === 'RED'
-                  ? 'bg-red-500'
-                  : gameResult.actualColour === 'BLACK'
+              className={`flex items-center justify-center text-white text-3xl h-full font-semibold py-4 rounded-md shadow-md ${gameResult.actualColour === 'RED'
+                ? 'bg-red-500'
+                : gameResult.actualColour === 'BLACK'
                   ? 'bg-black'
                   : 'bg-green-600'
-              }`}
+                }`}
             >
               {gameResult.actualNumber}
             </div>
