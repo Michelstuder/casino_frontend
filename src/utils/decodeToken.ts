@@ -5,7 +5,7 @@ interface TokenPayload {
   [key: string]: any;
 }
 
-export default function getUserIdFromToken(): TokenPayload | null {
+export default function getJwtTokenPayload(): TokenPayload | null {
   const token = localStorage.getItem('authToken');
   if (!token) return null;
 

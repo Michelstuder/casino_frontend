@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import getUserIdFromToken from '../utils/decodeToken';
+import getJwtTokenPayload from '../utils/decodeToken';
 
 interface RouletteProps {
   updateBalance: (amount: number) => void;
@@ -13,7 +13,7 @@ const Roulette = ({ updateBalance, currentBalance }: RouletteProps) => {
   const [betAmount, setBetAmount] = useState<number | null>(null);
   const [error, setError] = useState<string>('');
   const [gameResult, setGameResult] = useState<any | null>(null);
-  const jwtToken = getUserIdFromToken();
+  const jwtToken = getJwtTokenPayload();
 
   const handleBet = async () => {
     if (betAmount === null || betAmount <= 0) {

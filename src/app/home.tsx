@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import getUserIdFromToken from '../utils/decodeToken';
+import getJwtTokenPayload from '../utils/decodeToken';
 
 interface HomeProps {
   updateBalance: (newBalance: number) => void;
@@ -11,7 +11,7 @@ const Home = ({ updateBalance }: HomeProps) => {
   const [depositAmount, setDepositAmount] = useState<number | null>(null);
   const [withdrawAmount, setWithdrawAmount] = useState<number | null>(null);
   const [error, setError] = useState<string>('');
-  const jwtToken = getUserIdFromToken();
+  const jwtToken = getJwtTokenPayload();
 
   useEffect(() => {
     if (jwtToken) {

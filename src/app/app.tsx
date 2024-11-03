@@ -15,7 +15,7 @@ import Games from './games';
 import Roulette from '../components/roulette';
 import Home from './home';
 import axios from 'axios';
-import getUserIdFromToken from '../utils/decodeToken';
+import getJwtTokenPayload from '../utils/decodeToken';
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -32,7 +32,7 @@ const App = () => {
   const handleLoginSuccess = async (token: string) => {
     localStorage.setItem('authToken', token);
     
-    const jwtToken = getUserIdFromToken(); // Decode token after setting it in localStorage
+    const jwtToken = getJwtTokenPayload(); // Decode token after setting it in localStorage
     if (!jwtToken) {
       console.error('Failed to decode JWT token');
       showErrorToast({ message: 'Failed to log in. Try again later.' });
@@ -80,7 +80,7 @@ const App = () => {
 
   const fetchBalance = async () => {
     const token = localStorage.getItem('authToken');
-    const jwtToken = getUserIdFromToken(); // Decode token when needed
+    const jwtToken = getJwtTokenPayload(); // Decode token when needed
 
     if (!token || !jwtToken?.email) {
       console.error('Unable to fetch balance without valid token or email');
