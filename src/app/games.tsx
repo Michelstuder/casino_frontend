@@ -8,40 +8,39 @@ const Games = () => {
     navigate('/roulette');
   };
 
+  // Styles
+  const gameCardStyle = 'bg-white shadow-md w-80 rounded-lg overflow-hidden flex flex-col justify-between';
+
   return (
     <div className='p-16 grid grid-cols-1 md:grid-cols-2 gap-10'>
-      <div className='bg-white shadow-md w-80 rounded-lg overflow-hidden flex flex-col justify-between'>
+      {/* Roulette Game Card */}
+      <div className={gameCardStyle}>
         <img
           src='https://as2.ftcdn.net/v2/jpg/01/58/48/65/1000_F_158486556_3f1vUzdTXKRfDcAUTnItuYeQZSul0Pjt.jpg'
           alt='Roulette'
           className='w-full h-48 object-cover'
         />
-        <h2 className='text-2xl font-semibold flex justify-center py-2'>
-          Roulette
-        </h2>
+        <h2 className='text-2xl font-semibold flex justify-center py-2'>Roulette</h2>
         <div className='flex items-center justify-center p-4'>
-          <button 
+          <button
             className='bg-indigo-500 text-white font-bold py-2 px-4 rounded'
-            onClick={handleRouletteClick} // Add onClick handler
+            onClick={handleRouletteClick}
           >
             Test your luck
           </button>
         </div>
       </div>
 
-      <div className='bg-white shadow-md w-80 rounded-lg overflow-hidden flex flex-col justify-between'>
+      {/* Placeholder for Future Games */}
+      <div className={gameCardStyle}>
         <img
           src='https://life-stuff.org/wp-content/uploads/2022/02/gambling-poster.jpg'
           alt='More games'
           className='w-full h-48 object-cover'
         />
-        <h2 className='text-2xl font-semibold flex justify-center py-2'>
-          More Games Coming Soon!
-        </h2>
+        <h2 className='text-2xl font-semibold flex justify-center py-2'>More Games Coming Soon!</h2>
         <div className='flex items-center justify-center p-4'>
-          <button className='bg-gray-400 text-white font-bold py-2 px-4 rounded'>
-            Check back later
-          </button>
+          <button className='bg-gray-400 text-white font-bold py-2 px-4 rounded'>Check back later</button>
         </div>
       </div>
     </div>

@@ -6,24 +6,19 @@ interface GoogleLoginProps {
   onLoginFailure: () => void;
 }
 
-export const GoogleLoginComponent = ({
-  onLoginSuccess,
-  onLoginFailure,
-}: GoogleLoginProps) => {
-  const handleSuccess = async (response: any) => {
+export const GoogleLoginComponent = ({ onLoginSuccess, onLoginFailure }: GoogleLoginProps) => {
+  // Handle successful login by calling the parent callback with the token
+  const handleSuccess = (response: any) => {
     const token = response.credential;
-
-    try {
+    if (token) {
       onLoginSuccess(token);
-    } catch (error) {
-      console.error('Login failed:', error);
-      onLoginFailure();
+    } else {
+      handleFailure();
     }
   };
 
-  const handleFailure = () => {
-    onLoginFailure();
-  };
+  // Notify parent component on login failure
+  const handleFailure = () => onLoginFailure();
 
   return (
     <div className="flex flex-col items-center justify-center h-full p-6 bg-white rounded-lg shadow-md">
