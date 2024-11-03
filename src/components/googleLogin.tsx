@@ -12,7 +12,6 @@ export const GoogleLoginComponent = ({
 }: GoogleLoginProps) => {
   const handleSuccess = async (response: any) => {
     const token = response.credential;
-    console.log('Google Login Token:', token);
 
     try {
       onLoginSuccess(token);
