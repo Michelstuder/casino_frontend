@@ -2,22 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import { GoogleLoginComponent } from '../components/googleLogin';
 import Navbar from '../components/navbar';
-import ToastNotification, { useToast } from '../components/toastNotification';
+import { feedbackToast } from '../components/toastNotification';
 import Games from './games';
 import Roulette from '../components/roulette';
 import Home from './home';
 import axios from 'axios';
 import getJwtTokenPayload from '../utils/decodeToken';
+import { Toaster } from 'react-hot-toast';
 
 const App = () => {
-  // State for tracking login status and balance
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [balance, setBalance] = useState(0);
 
-  // Use the custom toast hook
-  const { showToast } = useToast();
-
-  // Check login status and fetch balance on component mount
   useEffect(() => {
     const token = localStorage.getItem('authToken');
     if (token) {
@@ -26,14 +22,13 @@ const App = () => {
     }
   }, []);
 
-  // Function to handle successful login and store JWT token
   const handleLoginSuccess = async (token: string) => {
     localStorage.setItem('authToken', token);
     const jwtToken = getJwtTokenPayload();
 
     if (!jwtToken) {
       console.error('Failed to decode JWT token');
-      showToast({ message: 'Failed to log in. Try again later.', type: 'error' });
+      feedbackToast({ message: 'Failed to log in. Try again later.', variant: 'error' });
       return;
     }
 
@@ -48,16 +43,16 @@ const App = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       setIsLoggedIn(true);
-      showToast({ message: 'Logged in successfully!', type: 'success' });
+      feedbackToast({ message: 'Logged in successfully!', variant: 'success' });
       fetchBalance();
     } catch (error) {
       console.error('Error during user creation:', error);
-      showToast({ message: 'Failed to create user. Try again later.', type: 'error' });
+      feedbackToast({ message: 'Failed to create user. Try again later.', variant: 'error' });
     }
   };
 
   const handleLoginFailure = () => {
-    showToast({ message: 'Log in failed! Please try again later', type: 'error' });
+    feedbackToast({ message: 'Log in failed! Please try again later', variant: 'error' });
   };
 
   const handleLogout = async () => {
@@ -65,14 +60,13 @@ const App = () => {
       localStorage.removeItem('authToken');
       setIsLoggedIn(false);
       setBalance(0);
-      showToast({ message: 'Logged out successfully!', type: 'success' });
+      feedbackToast({ message: 'Logged out successfully!', variant: 'success' });
     } catch (error) {
       console.error('Failed to logout:', error);
-      showToast({ message: 'Log out failed! Please try again later.', type: 'error' });
+      feedbackToast({ message: 'Log out failed! Please try again later.', variant: 'error' });
     }
   };
 
-  // Fetch user balance from server
   const fetchBalance = async () => {
     const token = localStorage.getItem('authToken');
     const jwtToken = getJwtTokenPayload();
@@ -93,12 +87,11 @@ const App = () => {
     }
   };
 
-  // Update balance state in the app
   const updateBalance = (newBalance: number) => setBalance(newBalance);
 
   return (
     <Router>
-      <ToastNotification />
+      <Toaster />
       <Navbar isLoggedIn={isLoggedIn} onLogout={handleLogout} balance={balance} />
       <div className='min-h-screen bg-gray-100 flex items-center justify-center'>
         <Routes>

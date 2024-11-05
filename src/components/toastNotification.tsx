@@ -1,67 +1,38 @@
-import React, { useState } from "react";
-import 'tailwindcss/tailwind.css';
+import toast from 'react-hot-toast';
+import React from 'react';
+import { ExclamationCircleIcon, CheckCircleIcon } from '@heroicons/react/24/solid';
 
-type ToastOptions = {
+interface ToastWithCtaProps {
+  variant: 'success' | 'error';
+  onClickFunction?: () => void;
   message: string;
-  type: 'success' | 'error';
-  duration?: number;
+  ctaMessage?: string;
+  toastId?: string;
+}
+
+// Mapping variant to icons
+const variantIconMapping: { [key: string]: React.ReactNode } = {
+  success: <CheckCircleIcon className="h-8 w-8 text-green-500 mr-2" />,
+  error: <ExclamationCircleIcon className="h-8 w-8 text-red-500 mr-2" />
 };
 
-type ToastProps = {
-  message: string;
-  type: 'success' | 'error';
-  onClose: () => void;
-};
-
-const Toast: React.FC<ToastProps> = ({ message, type, onClose }) => {
-  return (
+export function feedbackToast({ variant, onClickFunction, message, ctaMessage, toastId }: ToastWithCtaProps) {
+  const feedbackToastIcon = variantIconMapping[variant];
+  
+  toast.custom((t) => (
     <div
-      className={`fixed top-4 right-4 max-w-xs p-4 rounded-lg shadow-md text-white flex items-center gap-4 ${
-        type === 'success' ? 'bg-green-500' : 'bg-red-500'
-      }`}
+      className={`${
+        t.visible ? 'animate-enter' : 'animate-leave'
+      } max-w-lg w-full bg-white rounded-lg pointer-events-auto flex items-center shadow-md ring-1 ring-gray-300 p-4`}
     >
-      <span>{message}</span>
-      <button onClick={onClose} className="ml-auto text-white font-bold">X</button>
+      <button
+        onClick={onClickFunction}
+        className="flex items-center justify-center text-center w-full text-gray-700"
+      >
+        {feedbackToastIcon}
+        <span className="font-medium">{message}</span>
+        {ctaMessage && <span className="ml-2 text-blue-600 font-bold">{ctaMessage}</span>}
+      </button>
     </div>
-  );
-};
-
-let toastTimeout: NodeJS.Timeout;
-
-export const useToast = () => {
-  const [toast, setToast] = useState<ToastOptions | null>(null);
-
-  const showToast = ({ message, type, duration = 3000 }: ToastOptions): void => {
-    clearTimeout(toastTimeout);
-    setToast({ message, type });
-
-    toastTimeout = setTimeout(() => {
-      setToast(null);
-    }, duration);
-  };
-
-  const hideToast = () => {
-    clearTimeout(toastTimeout);
-    setToast(null);
-  };
-
-  return { toast, showToast, hideToast };
-};
-
-const ToastNotification: React.FC = () => {
-  const { toast, hideToast } = useToast();
-
-  return (
-    <>
-      {toast && (
-        <Toast
-          message={toast.message}
-          type={toast.type}
-          onClose={hideToast}
-        />
-      )}
-    </>
-  );
-};
-
-export default ToastNotification;
+  ), { id: toastId });
+}
