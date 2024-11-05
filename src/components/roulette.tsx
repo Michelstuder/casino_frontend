@@ -26,6 +26,7 @@ const Roulette = ({ updateBalance, currentBalance }: RouletteProps) => {
       number: selectedNumber !== null ? selectedNumber : null,
       amount: betAmount ?? 0,  // Ensure amount is never null
     };
+    updateBalanceOnBet(-(bet.amount));  // Fallback to 0 if amount is null
 
     try {
       const response = await axios.post(
@@ -41,11 +42,7 @@ const Roulette = ({ updateBalance, currentBalance }: RouletteProps) => {
       setGameResult(response.data);
 
       if (response.data.isSuccess) {
-        // Add winnings to balance
         updateBalanceOnBet(response.data.moneyWon);
-      } else {
-        // Deduct bet amount from balance
-        updateBalanceOnBet(-(bet.amount || 0));  // Fallback to 0 if amount is null
       }
 
       setError('');
