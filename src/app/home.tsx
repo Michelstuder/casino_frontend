@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import getJwtTokenPayload from '../utils/decodeToken';
 import { AiOutlinePlusCircle, AiOutlineMinusCircle } from 'react-icons/ai';
-import ToastNotification, { showSuccessToast, showErrorToast } from '../components/toastNotification';
+import ToastNotification, { useToast } from '../components/toastNotification'; // Updated import
 
 interface HomeProps {
   updateBalance: (newBalance: number) => void;
@@ -15,6 +15,9 @@ const Home = ({ updateBalance }: HomeProps) => {
   const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(true);
   const jwtToken = getJwtTokenPayload();
+
+  // Use custom toast hook
+  const { showToast } = useToast();
 
   // Fetch balance on initial load and if user email changes
   useEffect(() => {
@@ -67,10 +70,10 @@ const Home = ({ updateBalance }: HomeProps) => {
       setBalance(response.data.moneyAmount);
       updateBalance(response.data.moneyAmount);
       resetInputFields();
-      showSuccessToast({ message: 'Balance updated successfully.' }); // Show success toast
+      showToast({ message: 'Balance updated successfully.', type: 'success' }); // Show success toast
     } catch (err) {
       console.error('Deposit failed:', err);
-      showErrorToast({ message: 'Failed to deposit.' }); // Show error toast
+      showToast({ message: 'Failed to deposit.', type: 'error' }); // Show error toast
     }
   };
 
@@ -95,10 +98,10 @@ const Home = ({ updateBalance }: HomeProps) => {
       setBalance(response.data.moneyAmount);
       updateBalance(response.data.moneyAmount);
       resetInputFields();
-      showSuccessToast({ message: 'Balance updated successfully.' }); // Show success toast
+      showToast({ message: 'Balance updated successfully.', type: 'success' }); // Show success toast
     } catch (err) {
       console.error('Withdrawal failed:', err);
-      showErrorToast({ message: 'Failed to withdraw. Check balance.' }); // Show error toast
+      showToast({ message: 'Failed to withdraw. Check balance.', type: 'error' }); // Show error toast
     }
   };
 

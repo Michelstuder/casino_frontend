@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import { GoogleLoginComponent } from '../components/googleLogin';
 import Navbar from '../components/navbar';
-import ToastNotification, { showErrorToast, showSuccessToast } from '../components/toastNotification';
+import ToastNotification, { useToast } from '../components/toastNotification';
 import Games from './games';
 import Roulette from '../components/roulette';
 import Home from './home';
@@ -13,6 +13,9 @@ const App = () => {
   // State for tracking login status and balance
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [balance, setBalance] = useState(0);
+
+  // Use the custom toast hook
+  const { showToast } = useToast();
 
   // Check login status and fetch balance on component mount
   useEffect(() => {
@@ -30,7 +33,7 @@ const App = () => {
 
     if (!jwtToken) {
       console.error('Failed to decode JWT token');
-      showErrorToast({ message: 'Failed to log in. Try again later.' });
+      showToast({ message: 'Failed to log in. Try again later.', type: 'error' });
       return;
     }
 
@@ -45,16 +48,16 @@ const App = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       setIsLoggedIn(true);
-      showSuccessToast({ message: 'Logged in successfully!' });
+      showToast({ message: 'Logged in successfully!', type: 'success' });
       fetchBalance();
     } catch (error) {
       console.error('Error during user creation:', error);
-      showErrorToast({ message: 'Failed to create user. Try again later.' });
+      showToast({ message: 'Failed to create user. Try again later.', type: 'error' });
     }
   };
 
   const handleLoginFailure = () => {
-    showErrorToast({ message: 'Log in failed! Please try again later' });
+    showToast({ message: 'Log in failed! Please try again later', type: 'error' });
   };
 
   const handleLogout = async () => {
@@ -62,10 +65,10 @@ const App = () => {
       localStorage.removeItem('authToken');
       setIsLoggedIn(false);
       setBalance(0);
-      showSuccessToast({ message: 'Logged out successfully!' });
+      showToast({ message: 'Logged out successfully!', type: 'success' });
     } catch (error) {
       console.error('Failed to logout:', error);
-      showErrorToast({ message: 'Log out failed! Please try again later.' });
+      showToast({ message: 'Log out failed! Please try again later.', type: 'error' });
     }
   };
 
