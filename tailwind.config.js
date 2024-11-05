@@ -6,8 +6,8 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        success: '#22C55E',
-        error: '#EF4444',
+        success: '#5FE872',
+        error: '#F55C5C',
       },
     },
   },
