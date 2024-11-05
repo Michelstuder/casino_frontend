@@ -72,3 +72,12 @@ The following table shows the results of executing each test case. All tests hav
 | TC-13  | Routing       | Redirect to login if user is not authenticated                   | Passed     |
 | TC-14  | Google Login  | Google Login button is displayed when user is not logged in      | Passed     |
 | TC-15  | Google Login  | Successful login updates isLoggedIn state and displays balance   | Passed     |
+
+## 4. Unit tests
+
+I implemented simple playwright unit tests using playwright. The unit tests cover these three major components:
+- **App.tsx**
+- **Home.tsx**
+- **Roulette.tsx**
+
+I decided to only cover these components, since testing more would be an overkill for frontend unit tests.
